@@ -9,3 +9,62 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id          String   @id
+  name        String
+  password    String
+  createdAt   DateTime
+  isAdmin     Boolean
+  isActive    Boolean
+  email       String
+  phone       String
+  cpf         String
+  birthDate   DateTime
+  isSeller    Boolean  @default(false)
+  addressId   String
+  address     Address  @relation(fields: [addressId], references: [id], onDelete: Cascade)
+  description String
+  Ad          Ad[]
+
+  @@map("users")
+}
+
+model Address {
+  id         String  @id @default(uuid())
+  zipCode    String
+  state      String
+  city       String
+  country    String
+  street     String
+  number     String
+  complement String?
+  User       User[]
+
+  @@map("addresses")
+}
+
+model Ad {
+  id          String  @id @default(uuid())
+  brand       String
+  name        String
+  year        Int
+  fuel        String
+  km          String
+  color       String
+  priceTf     Float
+  price       Float
+  description String
+  coverImage  String
+  firstImage  String?
+  secondImage String?
+  thirdImage  String?
+  fourthImage String?
+  fifthImage  String?
+  sixthImage  String?
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  published   Boolean @default(true)
+
+  @@map("ads")
+}
