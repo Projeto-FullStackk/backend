@@ -24,7 +24,7 @@ model User {
   addressId   String
   address     Address  @relation(fields: [addressId], references: [id], onDelete: Cascade)
   description String
-  Ad          Ad[]
+  // Ad          Ad[]
 
   @@map("users")
 }
@@ -61,8 +61,8 @@ model Ad {
   fourthImage String?
   fifthImage  String?
   sixthImage  String?
-  userId      String
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // userId      String
+  // user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   published   Boolean @default(true)
 
   @@map("ads")

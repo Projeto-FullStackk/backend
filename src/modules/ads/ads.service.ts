@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAdDto } from './dto/create-ad.dto';
 import { UpdateAdDto } from './dto/update-ad.dto';
+// import { AdsPrismaRepository } from './repositories/prisma/ads.prisma.repository';
+import { AdsRepository } from './repositories/ads.repository';
 
 @Injectable()
 export class AdsService {
-  create(createAdDto: CreateAdDto) {
-    return 'This action adds a new ad';
+  constructor(private adsRepository: AdsRepository) {}
+
+  async create(createAdDto: CreateAdDto) {
+    const ads = await this.adsRepository.create(createAdDto);
+    return ads;
   }
 
-  findAll() {
-    return `This action returns all ads`;
+  async findAll() {
+    return this.adsRepository.findAll();
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} ad`;
+  async findOne(id: string) {
+    const findAd = await this.adsRepository.findOne(id);
+
+    if (!findAd) {
+      throw new NotFoundException('Ad not found');
+    }
+
+    return findAd;
   }
 
-  update(id: string, updateAdDto: UpdateAdDto) {
-    return `This action updates a #${id} ad`;
+  async update(id: string, updateAdDto: UpdateAdDto) {
+    const ad = await this.adsRepository.update(id, updateAdDto);
+
+    return ad;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} ad`;
+  async remove(id: string) {
+    await this.adsRepository.remove(id);
+
+    return;
   }
 }

@@ -15,12 +15,12 @@ import { UpdateAdDto } from './dto/update-ad.dto';
 export class AdsController {
   constructor(private readonly adsService: AdsService) {}
 
-  @Post()
+  @Post('')
   create(@Body() createAdDto: CreateAdDto) {
     return this.adsService.create(createAdDto);
   }
 
-  @Get()
+  @Get('')
   findAll() {
     return this.adsService.findAll();
   }
