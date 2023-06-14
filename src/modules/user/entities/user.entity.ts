@@ -5,7 +5,6 @@ export class User {
   name: string;
   password: string;
   isAdmin: boolean;
-  isActive: boolean;
   email: string;
   phone: string;
   cpf: string;
