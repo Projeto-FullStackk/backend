@@ -18,7 +18,7 @@ export class Ad {
   fourthImage?: string;
   fifthImage?: string;
   sixthImage?: string;
-  userId: string;
+  // userId: string;
   published: boolean;
 
   constructor() {

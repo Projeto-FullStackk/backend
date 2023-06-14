@@ -16,7 +16,6 @@ model User {
   password    String
   createdAt   DateTime
   isAdmin     Boolean
-  isActive    Boolean
   email       String
   phone       String
   cpf         String
