@@ -25,8 +25,7 @@ model User {
   addressId   String
   address     Address  @relation(fields: [addressId], references: [id], onDelete: Cascade)
   description String
-  Ad          Ad[]
-
+  ads         Ad[]
   @@map("users")
 }
 
