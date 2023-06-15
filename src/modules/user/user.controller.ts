@@ -10,10 +10,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateAddressDto, CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { request, Request } from 'express';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+// import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -25,7 +25,7 @@ export class UserController {
   }
 
   @Get('')
-  @ApiBearerAuth()
+  // @ApiBearerAuth()
   findAll(@Req() req: Request) {
     return 'not created yet';
   }

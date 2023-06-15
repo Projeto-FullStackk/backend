@@ -5,10 +5,13 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UserService, private jwtService: JwtService) {}
+  constructor(
+    private usersService: UserService,
+    private jwtService: JwtService,
+  ) {}
 
-  validateUser(email: string, password: string) {
-    const user = this.usersService.findByEmail(email);
+  async validateUser(email: string, password: string) {
+    const user = await this.usersService.findByEmail(email);
     if (user) {
       const matchPassword = compare(password, user.password);
       if (matchPassword) {
@@ -16,13 +19,13 @@ export class AuthService {
       }
       return null;
     }
+  }
 
-    async login(email: string){
-        const user = await this.usersService.findByEmail(email)
+  async login(email: string) {
+    const user = await this.usersService.findByEmail(email);
 
-        return {
-            token: this.jwtService.sign({ email }, { subject: user.id }),
-        };
-    }
+    return {
+      token: this.jwtService.sign({ email }, { subject: user.id }),
+    };
   }
 }

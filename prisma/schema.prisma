@@ -14,8 +14,8 @@ model User {
   id          String   @id
   name        String
   password    String
-  createdAt   DateTime
-  isAdmin     Boolean
+  createdAt   String
+  isAdmin     Boolean @default(false)
   email       String
   phone       String
   cpf         String

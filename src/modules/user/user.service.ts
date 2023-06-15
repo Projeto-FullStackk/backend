@@ -1,6 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { appendErrors } from 'react-hook-form';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateAddressDto, CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UserRepository } from './repositories/user.repository';
@@ -10,10 +9,10 @@ export class UserService {
   constructor(private userRepository: UserRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    const findUSer = await this.userRepository.findByEmail(createUserDto.email);
-    if (findUSer) {
-      throw new ConflictException('User already exists');
-    }
+    // const findUSer = await this.userRepository.findByEmail(createUserDto.email);
+    // if (findUSer) {
+    //   throw new ConflictException('User already exists');
+    // }
     const user = await this.userRepository.create(createUserDto);
 
     return user;
@@ -27,6 +26,11 @@ export class UserService {
   async findOne(id: number) {
     return `This action returns a #${id} user`;
   }
+
+  // async findByEmail(email: string) {
+  //   const user = await this.userRepository.findByEmail(email);
+  //   return user;
+  // }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;

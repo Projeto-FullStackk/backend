@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-class CreateAddressDto {
+export class CreateAddressDto {
   @IsString()
   @IsNotEmpty()
   zipCode: string;
