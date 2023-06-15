@@ -74,6 +74,6 @@ export class CreateAdDto {
   @IsOptional()
   published: boolean;
 
-  @IsString()
-  userId: string; //retirar quando tiver autenticação
+  // @IsString()
+  // userId: string; //retirar quando tiver autenticação
 }

@@ -17,7 +17,11 @@ export class AdsPrismaRepository implements AdsRepository {
   }
 
   async findAll(): Promise<Ad[]> {
-    const ads = await this.prisma.ad.findMany();
+    const ads = await this.prisma.ad.findMany({
+      where: {
+        published: true,
+      },
+    });
     return ads;
   }
 
