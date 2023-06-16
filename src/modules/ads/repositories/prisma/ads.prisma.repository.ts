@@ -4,7 +4,6 @@ import { PrismaService } from 'src/database/prisma.service';
 import { CreateAdDto } from '../../dto/create-ad.dto';
 import { UpdateAdDto } from '../../dto/update-ad.dto';
 import { Ad } from '../../entities/ad.entity';
-import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class AdsPrismaRepository implements AdsRepository {
