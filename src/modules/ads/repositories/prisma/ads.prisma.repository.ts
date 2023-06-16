@@ -4,16 +4,21 @@ import { PrismaService } from 'src/database/prisma.service';
 import { CreateAdDto } from '../../dto/create-ad.dto';
 import { UpdateAdDto } from '../../dto/update-ad.dto';
 import { Ad } from '../../entities/ad.entity';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class AdsPrismaRepository implements AdsRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(createAdDto: CreateAdDto): Promise<Ad> {
-    const ad = await this.prisma.ad.create({
-      data: createAdDto,
+  async create(createAdDto: CreateAdDto, userLoggedId: string): Promise<Ad> {
+    const newAd = await this.prisma.ad.create({
+      data: {
+        ...createAdDto,
+        userId: userLoggedId,
+      },
     });
-    return ad;
+
+    return newAd;
   }
 
   async findAll(): Promise<Ad[]> {
@@ -32,7 +37,11 @@ export class AdsPrismaRepository implements AdsRepository {
     return ad;
   }
 
-  async update(id: string, updateAdDto: UpdateAdDto): Promise<Ad> {
+  async update(
+    id: string,
+    updateAdDto: UpdateAdDto,
+    userLoggedId: string,
+  ): Promise<Ad> {
     const ad = await this.prisma.ad.update({
       where: { id },
       data: updateAdDto,
@@ -40,7 +49,7 @@ export class AdsPrismaRepository implements AdsRepository {
     return ad;
   }
 
-  async remove(id: string): Promise<Ad> {
+  async remove(id: string, userLoggedId: string): Promise<Ad> {
     const ad = await this.prisma.ad.delete({
       where: { id },
     });

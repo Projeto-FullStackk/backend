@@ -1,10 +1,11 @@
 import { Exclude } from 'class-transformer';
 import { randomUUID } from 'crypto';
 
-export interface IAddress {
+export class Address {
   zipCode: string;
   state: string;
   city: string;
+  country: string;
   street: string;
   number: string;
   complement?: string;
@@ -19,15 +20,15 @@ export class User {
   email: string;
   phone: string;
   cpf: string;
-  birthDate: string;
+  birthDate: string | Date;
   isSeller?: boolean;
   readonly isAdmin: boolean;
-  readonly createdAt: string;
-  address: IAddress;
+  readonly createdAt: Date;
+  address: Address;
   description: string;
 
   constructor() {
     this.id = randomUUID();
-    this.createdAt = String(new Date());
+    this.createdAt = new Date();
   }
 }

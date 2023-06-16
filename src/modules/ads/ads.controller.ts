@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { AdsService } from './ads.service';
 import { CreateAdDto } from './dto/create-ad.dto';
@@ -19,8 +20,8 @@ export class AdsController {
 
   @Post('')
   @UseGuards(JwtAuthGuard)
-  create(@Body() createAdDto: CreateAdDto) {
-    return this.adsService.create(createAdDto);
+  create(@Body() createAdDto: CreateAdDto, @Request() req) {
+    return this.adsService.create(createAdDto, req);
   }
 
   @Get('')
@@ -37,13 +38,17 @@ export class AdsController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  update(@Param('id') id: string, @Body() updateAdDto: UpdateAdDto) {
-    return this.adsService.update(id, updateAdDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateAdDto: UpdateAdDto,
+    @Request() req,
+  ) {
+    return this.adsService.update(id, updateAdDto, req);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  remove(@Param('id') id: string) {
-    return this.adsService.remove(id);
+  remove(@Param('id') id: string, @Request() req) {
+    return this.adsService.remove(id, req);
   }
 }

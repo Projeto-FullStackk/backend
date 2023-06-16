@@ -10,8 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { hashSync } from 'bcryptjs';
-import { Transform } from 'class-transformer';
-import { IAddress } from '../entities/user.entity';
+import { Transform, Type } from 'class-transformer';
 
 export class CreateAddressDto {
   @IsString()
@@ -33,6 +32,10 @@ export class CreateAddressDto {
   @IsString()
   @IsNotEmpty()
   number: string;
+
+  @IsString()
+  @IsNotEmpty()
+  country: string;
 
   @IsOptional()
   @IsString()
@@ -59,7 +62,7 @@ export class CreateUserDto {
   phone: string;
 
   @IsDateString()
-  birthDate: string;
+  birthDate: string | Date;
 
   @IsString()
   description: string;
@@ -78,5 +81,6 @@ export class CreateUserDto {
 
   @IsObject()
   @ValidateNested()
-  address: IAddress;
+  @Type(() => CreateAddressDto)
+  address: CreateAddressDto;
 }

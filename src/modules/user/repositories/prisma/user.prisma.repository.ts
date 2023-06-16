@@ -5,25 +5,51 @@ import { UpdateUserDto } from '../../dto/update-user.dto';
 import { User } from '../../entities/user.entity';
 import { PrismaService } from 'src/database/prisma.service';
 import { plainToInstance } from 'class-transformer';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserPrismaRepository implements UserRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateUserDto): Promise<User> {
-    const { address, ...others } = data;
+    const { address, birthDate, ...others } = data;
     const user = new User();
-    Object.assign(user, { ...others });
-    console.log(data.address);
+    Object.assign(user, { ...others, isAdmin: false });
+
     const newUser = await this.prisma.user.create({
-      data: { ...user, address: { ...address } },
+      data: {
+        ...user,
+        birthDate: new Date(birthDate),
+        address: {
+          create: { ...address },
+        },
+      },
+      include: {
+        address: {
+          select: {
+            id: false,
+            zipCode: true,
+            state: true,
+            city: true,
+            street: true,
+            number: true,
+            complement: true,
+            country: true,
+          },
+        },
+      },
     });
+
     return plainToInstance(User, newUser);
   }
 
   async findAll(userLoggedId: string): Promise<User[]> {
     const userLoggedIn = await this.prisma.user.findFirst({
       where: { id: userLoggedId },
+      include: {
+        address: true,
+        ads: true,
+      },
     });
     if (userLoggedIn.isAdmin === false) {
       return plainToInstance(User, [userLoggedIn]);
@@ -35,6 +61,10 @@ export class UserPrismaRepository implements UserRepository {
   async findOne(id: string): Promise<User> {
     const user = await this.prisma.user.findUnique({
       where: { id: id },
+      include: {
+        address: true,
+        ads: true,
+      },
     });
     return plainToInstance(User, user);
   }
@@ -42,16 +72,37 @@ export class UserPrismaRepository implements UserRepository {
   async findByEmail(email: string): Promise<User> {
     const user = await this.prisma.user.findFirst({
       where: { email: email },
+      include: {
+        address: true,
+        ads: true,
+      },
     });
-    return plainToInstance(User, user);
+
+    return user;
   }
 
   async update(id: string, data: UpdateUserDto): Promise<User> {
+    const { address, birthDate, ...others } = data;
+    const updateData: Prisma.UserUpdateInput = { ...others };
+
+    if (birthDate) {
+      updateData.birthDate = new Date(birthDate);
+    }
+
+    if (address) {
+      updateData.address = {
+        update: { ...address },
+      };
+    }
+
     const userUpdate = await this.prisma.user.update({
       where: {
         id: id,
       },
-      data: { ...data, address: JSON.stringify(data.address) },
+      data: updateData,
+      include: {
+        address: true,
+      },
     });
 
     return plainToInstance(User, userUpdate);

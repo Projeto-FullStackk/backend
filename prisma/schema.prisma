@@ -14,19 +14,34 @@ model User {
   id          String   @id
   name        String
   password    String
-  createdAt   String
-  isAdmin     Boolean @default(false)
+  createdAt   DateTime
+  isAdmin     Boolean  @default(false)
   email       String
   phone       String
   cpf         String
-  birthDate   String
+  birthDate   DateTime
   isSeller    Boolean  @default(false)
-  address     Json
   description String
   ads         Ad[]
+  Address     Address? @relation(fields: [addressId], references: [id])
+  addressId   String?
+
   @@map("users")
 }
 
+model Address {
+  id         String  @id @default(uuid())
+  zipCode    String
+  state      String
+  city       String
+  country    String
+  street     String
+  number     String
+  complement String?
+  User       User[]
+
+  @@map("addresses")
+}
 
 model Ad {
   id          String  @id @default(uuid())
