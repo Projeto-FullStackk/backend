@@ -4,16 +4,21 @@ import { PrismaService } from 'src/database/prisma.service';
 import { CreateAdDto } from '../../dto/create-ad.dto';
 import { UpdateAdDto } from '../../dto/update-ad.dto';
 import { Ad } from '../../entities/ad.entity';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class AdsPrismaRepository implements AdsRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(createAdDto: CreateAdDto, userLoggedId: string): Promise<Ad> {
-    const ad = await this.prisma.ad.create({
-      data: createAdDto,
+    const newAd = await this.prisma.ad.create({
+      data: {
+        ...createAdDto,
+        userId: userLoggedId,
+      },
     });
-    return ad;
+
+    return newAd;
   }
 
   async findAll(): Promise<Ad[]> {
