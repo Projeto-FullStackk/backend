@@ -9,33 +9,55 @@ import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class UserPrismaRepository implements UserRepository {
   constructor(private prisma: PrismaService) {}
-  create(createUserDto: CreateUserDto): User | Promise<User> {
-    throw new Error('Method not implemented.');
+
+  async create(data: CreateUserDto): Promise<User> {
+    const { address, ...others } = data;
+    const user = new User();
+    Object.assign(user, { ...others });
+    console.log(data.address);
+    const newUser = await this.prisma.user.create({
+      data: { ...user, address: { ...address } },
+    });
+    return plainToInstance(User, newUser);
   }
-  async findAll(userLoggedId: string): Promise<User | User[]> {
+
+  async findAll(userLoggedId: string): Promise<User[]> {
     const userLoggedIn = await this.prisma.user.findFirst({
       where: { id: userLoggedId },
     });
     if (userLoggedIn.isAdmin === false) {
-      throw new Error('user is not an admin');
+      return plainToInstance(User, [userLoggedIn]);
     }
     const users = await this.prisma.user.findMany();
     return plainToInstance(User, users);
   }
-  findOne(id: string, userLoggedId: string): User | Promise<User> {
-    throw new Error('Method not implemented.');
+
+  async findOne(id: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: id },
+    });
+    return plainToInstance(User, user);
   }
+
   async findByEmail(email: string): Promise<User> {
     const user = await this.prisma.user.findFirst({
       where: { email: email },
     });
-    return user;
+    return plainToInstance(User, user);
   }
 
-  update(id: string, updateUserDto: UpdateUserDto): User | Promise<User> {
-    throw new Error('Method not implemented.');
+  async update(id: string, data: UpdateUserDto): Promise<User> {
+    const userUpdate = await this.prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: { ...data, address: JSON.stringify(data.address) },
+    });
+
+    return plainToInstance(User, userUpdate);
   }
-  remove(id: string): User | Promise<User> {
-    throw new Error('Method not implemented.');
+
+  async remove(id: string): Promise<void> {
+    await this.prisma.user.delete({ where: { id: id } });
   }
 }

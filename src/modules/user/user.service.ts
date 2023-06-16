@@ -1,8 +1,10 @@
-import { ConflictException, Injectable } from '@nestjs/common';
-import { appendErrors } from 'react-hook-form';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
 import { UserRepository } from './repositories/user.repository';
 
 @Injectable()
@@ -10,9 +12,9 @@ export class UserService {
   constructor(private userRepository: UserRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    const findUSer = await this.userRepository.findByEmail(createUserDto.email);
-    if (findUSer) {
-      throw new ConflictException('User already exists');
+    const findUser = await this.userRepository.findByEmail(createUserDto.email);
+    if (findUser) {
+      throw new ConflictException('User already exists!');
     }
     const user = await this.userRepository.create(createUserDto);
 
@@ -24,15 +26,36 @@ export class UserService {
     return users;
   }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    const user = await this.userRepository.findOne(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found!');
+    }
+    return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findByEmail(email: string) {
+    const user = await this.userRepository.findByEmail(email);
+    return user;
   }
 
-  async remove(id: number) {
-    return `This action removes a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.userRepository.findOne(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found!');
+    }
+    const newUser = await this.userRepository.update(id, updateUserDto);
+    return newUser;
+  }
+
+  async remove(id: string) {
+    const user = await this.userRepository.findOne(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found!');
+    }
+    return await this.userRepository.remove(id);
   }
 }

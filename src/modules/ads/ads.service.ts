@@ -37,3 +37,5 @@ export class AdsService {
     await this.adsRepository.remove(id);
 
     return;
+  }
+}
