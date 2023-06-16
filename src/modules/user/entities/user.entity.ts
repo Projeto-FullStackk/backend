@@ -24,7 +24,7 @@ export class User {
   isSeller?: boolean;
   readonly isAdmin: boolean;
   readonly createdAt: Date;
-  address: Address;
+  Address: Address;
   description: string;
 
   constructor() {

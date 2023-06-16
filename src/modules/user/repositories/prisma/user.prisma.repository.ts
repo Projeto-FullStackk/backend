@@ -20,12 +20,12 @@ export class UserPrismaRepository implements UserRepository {
       data: {
         ...user,
         birthDate: new Date(birthDate),
-        address: {
+        Address: {
           create: { ...address },
         },
       },
       include: {
-        address: {
+        Address: {
           select: {
             id: false,
             zipCode: true,
@@ -47,7 +47,7 @@ export class UserPrismaRepository implements UserRepository {
     const userLoggedIn = await this.prisma.user.findFirst({
       where: { id: userLoggedId },
       include: {
-        address: true,
+        Address: true,
         ads: true,
       },
     });
@@ -62,7 +62,7 @@ export class UserPrismaRepository implements UserRepository {
     const user = await this.prisma.user.findUnique({
       where: { id: id },
       include: {
-        address: true,
+        Address: true,
         ads: true,
       },
     });
@@ -73,7 +73,7 @@ export class UserPrismaRepository implements UserRepository {
     const user = await this.prisma.user.findFirst({
       where: { email: email },
       include: {
-        address: true,
+        Address: true,
         ads: true,
       },
     });
@@ -90,7 +90,7 @@ export class UserPrismaRepository implements UserRepository {
     }
 
     if (address) {
-      updateData.address = {
+      updateData.Address = {
         update: { ...address },
       };
     }
@@ -101,7 +101,7 @@ export class UserPrismaRepository implements UserRepository {
       },
       data: updateData,
       include: {
-        address: true,
+        Address: true,
       },
     });
 
