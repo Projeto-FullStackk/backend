@@ -23,7 +23,7 @@ model User {
   isSeller    Boolean  @default(false)
   description String
   ads         Ad[]
-  Address     Address? @relation(fields: [addressId], references: [id])
+  Address     Address? @relation(fields: [addressId], references: [id], onDelete: Cascade)
   addressId   String?
 
   @@map("users")

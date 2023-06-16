@@ -25,7 +25,6 @@ export class AdsController {
   }
 
   @Get('')
-  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.adsService.findAll();
   }
