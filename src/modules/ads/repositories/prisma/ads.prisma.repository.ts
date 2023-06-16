@@ -9,7 +9,7 @@ import { Ad } from '../../entities/ad.entity';
 export class AdsPrismaRepository implements AdsRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(createAdDto: CreateAdDto): Promise<Ad> {
+  async create(createAdDto: CreateAdDto, userLoggedId: string): Promise<Ad> {
     const ad = await this.prisma.ad.create({
       data: createAdDto,
     });
@@ -32,7 +32,11 @@ export class AdsPrismaRepository implements AdsRepository {
     return ad;
   }
 
-  async update(id: string, updateAdDto: UpdateAdDto): Promise<Ad> {
+  async update(
+    id: string,
+    updateAdDto: UpdateAdDto,
+    userLoggedId: string,
+  ): Promise<Ad> {
     const ad = await this.prisma.ad.update({
       where: { id },
       data: updateAdDto,
@@ -40,7 +44,7 @@ export class AdsPrismaRepository implements AdsRepository {
     return ad;
   }
 
-  async remove(id: string): Promise<Ad> {
+  async remove(id: string, userLoggedId: string): Promise<Ad> {
     const ad = await this.prisma.ad.delete({
       where: { id },
     });

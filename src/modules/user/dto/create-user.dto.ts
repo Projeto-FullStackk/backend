@@ -1,15 +1,18 @@
 import {
   IsBoolean,
   IsDateString,
+  IsEmail,
   IsNotEmpty,
   IsObject,
   IsOptional,
   IsString,
+  MinLength,
   ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { hashSync } from 'bcryptjs';
+import { Transform, Type } from 'class-transformer';
 
-class CreateAddressDto {
+export class CreateAddressDto {
   @IsString()
   @IsNotEmpty()
   zipCode: string;
@@ -30,6 +33,10 @@ class CreateAddressDto {
   @IsNotEmpty()
   number: string;
 
+  @IsString()
+  @IsNotEmpty()
+  country: string;
+
   @IsOptional()
   @IsString()
   complement?: string;
@@ -38,10 +45,12 @@ class CreateAddressDto {
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
+  @MinLength(3)
   name: string;
 
   @IsString()
   @IsNotEmpty()
+  @IsEmail()
   email: string;
 
   @IsString()
@@ -53,7 +62,7 @@ export class CreateUserDto {
   phone: string;
 
   @IsDateString()
-  birthDate: Date;
+  birthDate: string | Date;
 
   @IsString()
   description: string;
@@ -63,6 +72,11 @@ export class CreateUserDto {
   isSeller: boolean;
 
   @IsString()
+  @IsNotEmpty()
+  @MinLength(8)
+  @Transform(({ value }: { value: string }) => hashSync(value), {
+    groups: ['transform'],
+  })
   password: string;
 
   @IsObject()

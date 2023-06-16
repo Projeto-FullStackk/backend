@@ -1,19 +1,34 @@
+import { Exclude } from 'class-transformer';
 import { randomUUID } from 'crypto';
+
+export class Address {
+  zipCode: string;
+  state: string;
+  city: string;
+  country: string;
+  street: string;
+  number: string;
+  complement?: string;
+}
 
 export class User {
   readonly id: string;
   name: string;
+
+  @Exclude()
   password: string;
-  isAdmin: boolean;
   email: string;
   phone: string;
   cpf: string;
-  birthDate: Date;
+  birthDate: string | Date;
   isSeller?: boolean;
-  addressId: string;
+  readonly isAdmin: boolean;
+  readonly createdAt: Date;
+  address: Address;
   description: string;
 
   constructor() {
     this.id = randomUUID();
+    this.createdAt = new Date();
   }
 }

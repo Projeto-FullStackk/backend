@@ -5,37 +5,110 @@ import { UpdateUserDto } from '../../dto/update-user.dto';
 import { User } from '../../entities/user.entity';
 import { PrismaService } from 'src/database/prisma.service';
 import { plainToInstance } from 'class-transformer';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserPrismaRepository implements UserRepository {
   constructor(private prisma: PrismaService) {}
-  create(createUserDto: CreateUserDto): User | Promise<User> {
-    throw new Error('Method not implemented.');
+
+  async create(data: CreateUserDto): Promise<User> {
+    const { address, birthDate, ...others } = data;
+    const user = new User();
+    Object.assign(user, { ...others, isAdmin: false });
+
+    const newUser = await this.prisma.user.create({
+      data: {
+        ...user,
+        birthDate: new Date(birthDate),
+        address: {
+          create: { ...address },
+        },
+      },
+      include: {
+        address: {
+          select: {
+            id: false,
+            zipCode: true,
+            state: true,
+            city: true,
+            street: true,
+            number: true,
+            complement: true,
+            country: true,
+          },
+        },
+      },
+    });
+
+    return plainToInstance(User, newUser);
   }
-  async findAll(userLoggedId: string): Promise<User | User[]> {
+
+  async findAll(userLoggedId: string): Promise<User[]> {
     const userLoggedIn = await this.prisma.user.findFirst({
       where: { id: userLoggedId },
+      include: {
+        address: true,
+        ads: true,
+      },
     });
     if (userLoggedIn.isAdmin === false) {
-      throw new Error('user is not an admin');
+      return plainToInstance(User, [userLoggedIn]);
     }
     const users = await this.prisma.user.findMany();
     return plainToInstance(User, users);
   }
-  findOne(id: string, userLoggedId: string): User | Promise<User> {
-    throw new Error('Method not implemented.');
+
+  async findOne(id: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: id },
+      include: {
+        address: true,
+        ads: true,
+      },
+    });
+    return plainToInstance(User, user);
   }
+
   async findByEmail(email: string): Promise<User> {
     const user = await this.prisma.user.findFirst({
       where: { email: email },
+      include: {
+        address: true,
+        ads: true,
+      },
     });
+
     return user;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto): User | Promise<User> {
-    throw new Error('Method not implemented.');
+  async update(id: string, data: UpdateUserDto): Promise<User> {
+    const { address, birthDate, ...others } = data;
+    const updateData: Prisma.UserUpdateInput = { ...others };
+
+    if (birthDate) {
+      updateData.birthDate = new Date(birthDate);
+    }
+
+    if (address) {
+      updateData.address = {
+        update: { ...address },
+      };
+    }
+
+    const userUpdate = await this.prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: updateData,
+      include: {
+        address: true,
+      },
+    });
+
+    return plainToInstance(User, userUpdate);
   }
-  remove(id: string): User | Promise<User> {
-    throw new Error('Method not implemented.');
+
+  async remove(id: string): Promise<void> {
+    await this.prisma.user.delete({ where: { id: id } });
   }
 }

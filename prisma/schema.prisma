@@ -15,7 +15,7 @@ model User {
   name        String
   password    String
   createdAt   DateTime
-  isAdmin     Boolean
+  isAdmin     Boolean  @default(false)
   email       String
   phone       String
   cpf         String
@@ -25,6 +25,7 @@ model User {
   address     Address  @relation(fields: [addressId], references: [id], onDelete: Cascade)
   description String
   ads         Ad[]
+
   @@map("users")
 }
 

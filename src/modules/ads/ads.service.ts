@@ -8,8 +8,8 @@ import { AdsRepository } from './repositories/ads.repository';
 export class AdsService {
   constructor(private adsRepository: AdsRepository) {}
 
-  async create(createAdDto: CreateAdDto) {
-    const ads = await this.adsRepository.create(createAdDto);
+  async create(createAdDto: CreateAdDto, userLoggedId: string) {
+    const ads = await this.adsRepository.create(createAdDto, userLoggedId);
     return ads;
   }
 
@@ -27,14 +27,14 @@ export class AdsService {
     return findAd;
   }
 
-  async update(id: string, updateAdDto: UpdateAdDto) {
-    const ad = await this.adsRepository.update(id, updateAdDto);
+  async update(id: string, updateAdDto: UpdateAdDto, userLoggedId: string) {
+    const ad = await this.adsRepository.update(id, updateAdDto, userLoggedId);
 
     return ad;
   }
 
-  async remove(id: string) {
-    await this.adsRepository.remove(id);
+  async remove(id: string, userLoggedId: string) {
+    await this.adsRepository.remove(id, userLoggedId);
 
     return;
   }
