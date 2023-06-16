@@ -1,12 +1,16 @@
 import {
   IsBoolean,
   IsDateString,
+  IsEmail,
   IsNotEmpty,
   IsObject,
   IsOptional,
   IsString,
+  MinLength,
   ValidateNested,
 } from 'class-validator';
+import { hashSync } from 'bcryptjs';
+import { Transform } from 'class-transformer';
 import { IAddress } from '../entities/user.entity';
 
 export class CreateAddressDto {
@@ -38,10 +42,12 @@ export class CreateAddressDto {
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
+  @MinLength(3)
   name: string;
 
   @IsString()
   @IsNotEmpty()
+  @IsEmail()
   email: string;
 
   @IsString()
@@ -63,6 +69,11 @@ export class CreateUserDto {
   isSeller: boolean;
 
   @IsString()
+  @IsNotEmpty()
+  @MinLength(8)
+  @Transform(({ value }: { value: string }) => hashSync(value), {
+    groups: ['transform'],
+  })
   password: string;
 
   @IsObject()

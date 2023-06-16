@@ -9,33 +9,36 @@ import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class UserPrismaRepository implements UserRepository {
   constructor(private prisma: PrismaService) {}
+
   async create(data: CreateUserDto): Promise<User> {
     const { address, ...others } = data;
     const user = new User();
     Object.assign(user, { ...others });
-
+    console.log(data.address);
     const newUser = await this.prisma.user.create({
       data: { ...user, address: { ...address } },
     });
-    console.log(newUser);
     return plainToInstance(User, newUser);
   }
-  async findAll(): Promise<User[]> {
-    // const userLoggedIn = await this.prisma.user.findFirst({
-    //   where: { id: userLoggedId },
-    // });
-    // if (userLoggedIn.isAdmin === false) {
-    //   throw new Error('user is not an admin');
-    // }
+
+  async findAll(userLoggedId: string): Promise<User[]> {
+    const userLoggedIn = await this.prisma.user.findFirst({
+      where: { id: userLoggedId },
+    });
+    if (userLoggedIn.isAdmin === false) {
+      return plainToInstance(User, [userLoggedIn]);
+    }
     const users = await this.prisma.user.findMany();
     return plainToInstance(User, users);
   }
+
   async findOne(id: string): Promise<User> {
     const user = await this.prisma.user.findUnique({
       where: { id: id },
     });
     return plainToInstance(User, user);
   }
+
   async findByEmail(email: string): Promise<User> {
     const user = await this.prisma.user.findFirst({
       where: { email: email },
@@ -53,6 +56,7 @@ export class UserPrismaRepository implements UserRepository {
 
     return plainToInstance(User, userUpdate);
   }
+
   async remove(id: string): Promise<void> {
     await this.prisma.user.delete({ where: { id: id } });
   }
