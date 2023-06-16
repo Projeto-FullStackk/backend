@@ -21,10 +21,10 @@ model User {
   cpf         String
   birthDate   DateTime
   isSeller    Boolean  @default(false)
-  addressId   String
-  address     Address  @relation(fields: [addressId], references: [id], onDelete: Cascade)
   description String
   ads         Ad[]
+  Address     Address? @relation(fields: [addressId], references: [id])
+  addressId   String?
 
   @@map("users")
 }
