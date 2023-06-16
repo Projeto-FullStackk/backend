@@ -7,7 +7,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UsersInMemoryRepository implements UserRepository {
-  remove(id: string): User | Promise<User> {
+  remove(id: string): void | Promise<void> {
     throw new Error('Method not implemented.');
   }
   private database: User[] = [];

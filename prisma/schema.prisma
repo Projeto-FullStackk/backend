@@ -19,28 +19,14 @@ model User {
   email       String
   phone       String
   cpf         String
-  birthDate   DateTime
+  birthDate   String
   isSeller    Boolean  @default(false)
-  addressId   String
-  address     Address  @relation(fields: [addressId], references: [id], onDelete: Cascade)
+  address     Json
   description String
   ads         Ad[]
   @@map("users")
 }
 
-model Address {
-  id         String  @id @default(uuid())
-  zipCode    String
-  state      String
-  city       String
-  country    String
-  street     String
-  number     String
-  complement String?
-  User       User[]
-
-  @@map("addresses")
-}
 
 model Ad {
   id          String  @id @default(uuid())

@@ -7,7 +7,7 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IAddress } from '../entities/user.entity';
 
 export class CreateAddressDto {
   @IsString()
@@ -53,7 +53,7 @@ export class CreateUserDto {
   phone: string;
 
   @IsDateString()
-  birthDate: Date;
+  birthDate: string;
 
   @IsString()
   description: string;
@@ -67,6 +67,5 @@ export class CreateUserDto {
 
   @IsObject()
   @ValidateNested()
-  @Type(() => CreateAddressDto)
-  address: CreateAddressDto;
+  address: IAddress;
 }

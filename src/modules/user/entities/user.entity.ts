@@ -1,7 +1,6 @@
 import { randomUUID } from 'crypto';
-import { Address } from './address.entity';
 
-interface IAddress {
+export interface IAddress {
   zipCode: string;
   state: string;
   city: string;
@@ -17,7 +16,7 @@ export class User {
   email: string;
   phone: string;
   cpf: string;
-  birthDate: Date;
+  birthDate: string;
   isSeller?: boolean;
   readonly isAdmin: boolean;
   readonly createdAt: string;
