@@ -6,6 +6,7 @@ import { User } from '../../entities/user.entity';
 import { PrismaService } from 'src/database/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { Prisma } from '@prisma/client';
+import { hashSync } from 'bcryptjs';
 
 @Injectable()
 export class UserPrismaRepository implements UserRepository {
@@ -81,6 +82,16 @@ export class UserPrismaRepository implements UserRepository {
     return user;
   }
 
+  async findByToken(token: string): Promise<User> {
+    const user = await this.prisma.user.findFirst({
+      where: { reset_token: token },
+      include: {
+        Address: true,
+      },
+    });
+    return user;
+  }
+
   async update(id: string, data: UpdateUserDto): Promise<User> {
     const { address, birthDate, ...others } = data;
     const updateData: Prisma.UserUpdateInput = { ...others };
@@ -110,5 +121,22 @@ export class UserPrismaRepository implements UserRepository {
 
   async remove(id: string): Promise<void> {
     await this.prisma.user.delete({ where: { id: id } });
+  }
+
+  async updateResetToken(email: string, resetToken: string): Promise<void> {
+    await this.prisma.user.update({
+      where: { email },
+      data: { reset_token: resetToken },
+    });
+  }
+
+  async updatePassword(id: string, password: string): Promise<void> {
+    await this.prisma.user.update({
+      where: { id },
+      data: {
+        password: hashSync(password, 10),
+        reset_token: null,
+      },
+    });
   }
 }
