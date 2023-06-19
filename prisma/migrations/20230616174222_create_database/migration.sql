@@ -4,15 +4,14 @@ CREATE TABLE "users" (
     "name" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL,
-    "isAdmin" BOOLEAN NOT NULL,
-    "isActive" BOOLEAN NOT NULL,
+    "isAdmin" BOOLEAN NOT NULL DEFAULT false,
     "email" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "cpf" TEXT NOT NULL,
     "birthDate" TIMESTAMP(3) NOT NULL,
     "isSeller" BOOLEAN NOT NULL DEFAULT false,
-    "addressId" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "addressId" TEXT,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
