@@ -21,7 +21,7 @@ export class AdsController {
   @Post('')
   @UseGuards(JwtAuthGuard)
   create(@Body() createAdDto: CreateAdDto, @Request() req) {
-    return this.adsService.create(createAdDto, req);
+    return this.adsService.create(createAdDto, req.user.id);
   }
 
   @Get('')
@@ -42,12 +42,12 @@ export class AdsController {
     @Body() updateAdDto: UpdateAdDto,
     @Request() req,
   ) {
-    return this.adsService.update(id, updateAdDto, req);
+    return this.adsService.update(id, updateAdDto, req.user.id);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string, @Request() req) {
-    return this.adsService.remove(id, req);
+    return this.adsService.remove(id, req.user.id);
   }
 }
