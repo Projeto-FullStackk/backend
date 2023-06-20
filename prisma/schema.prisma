@@ -16,7 +16,7 @@ model User {
   password    String
   createdAt   DateTime
   isAdmin     Boolean  @default(false)
-  email       String
+  email       String   @unique
   phone       String
   cpf         String
   birthDate   DateTime
@@ -25,6 +25,7 @@ model User {
   ads         Ad[]
   addressId   String?
   Address     Address? @relation(fields: [addressId], references: [id], onDelete: Cascade)
+  reset_token String?
 
   @@map("users")
 }
