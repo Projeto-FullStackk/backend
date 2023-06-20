@@ -3,12 +3,13 @@ import { CreateAdDto } from './dto/create-ad.dto';
 import { UpdateAdDto } from './dto/update-ad.dto';
 // import { AdsPrismaRepository } from './repositories/prisma/ads.prisma.repository';
 import { AdsRepository } from './repositories/ads.repository';
+import { Ad } from './entities/ad.entity';
 
 @Injectable()
 export class AdsService {
   constructor(private adsRepository: AdsRepository) {}
 
-  async create(createAdDto: CreateAdDto, userLoggedId: string) {
+  async create(createAdDto: CreateAdDto, userLoggedId: string): Promise<Ad> {
     const ads = await this.adsRepository.create(createAdDto, userLoggedId);
     return ads;
   }

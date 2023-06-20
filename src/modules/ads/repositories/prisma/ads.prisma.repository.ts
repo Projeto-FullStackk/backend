@@ -10,7 +10,6 @@ export class AdsPrismaRepository implements AdsRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(createAdDto: CreateAdDto, userLoggedId: string): Promise<Ad> {
-    console.log(createAdDto);
     const newAd = await this.prisma.ad.create({
       data: {
         ...createAdDto,
