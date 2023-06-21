@@ -25,6 +25,9 @@ export class AdsPrismaRepository implements AdsRepository {
       where: {
         published: true,
       },
+      include: {
+        user: true,
+      },
     });
     return ads;
   }
@@ -32,6 +35,9 @@ export class AdsPrismaRepository implements AdsRepository {
   async findOne(id: string): Promise<Ad> {
     const ad = await this.prisma.ad.findUnique({
       where: { id },
+      include: {
+        user: true,
+      },
     });
     return ad;
   }
