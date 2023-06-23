@@ -6,7 +6,7 @@ export class Ad {
   name: string;
   year: number;
   fuel: string;
-  km: string;
+  km: number;
   color: string;
   priceTf: number;
   price: number;
@@ -24,4 +24,12 @@ export class Ad {
   constructor() {
     this.id = randomUUID();
   }
+}
+
+export class AdFilter {
+  total: number;
+  count: number;
+  page: string;
+  perPage: string;
+  ads: Ad[];
 }

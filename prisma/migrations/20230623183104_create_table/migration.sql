@@ -12,6 +12,7 @@ CREATE TABLE "users" (
     "isSeller" BOOLEAN NOT NULL DEFAULT false,
     "description" TEXT NOT NULL,
     "addressId" TEXT,
+    "reset_token" TEXT,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
@@ -37,7 +38,7 @@ CREATE TABLE "ads" (
     "name" TEXT NOT NULL,
     "year" INTEGER NOT NULL,
     "fuel" TEXT NOT NULL,
-    "km" TEXT NOT NULL,
+    "km" INTEGER NOT NULL,
     "color" TEXT NOT NULL,
     "priceTf" DOUBLE PRECISION NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
@@ -54,6 +55,9 @@ CREATE TABLE "ads" (
 
     CONSTRAINT "ads_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- AddForeignKey
 ALTER TABLE "users" ADD CONSTRAINT "users_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "addresses"("id") ON DELETE CASCADE ON UPDATE CASCADE;

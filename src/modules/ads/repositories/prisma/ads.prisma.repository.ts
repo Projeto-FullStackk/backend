@@ -3,7 +3,7 @@ import { AdsRepository } from '../ads.repository';
 import { PrismaService } from 'src/database/prisma.service';
 import { CreateAdDto } from '../../dto/create-ad.dto';
 import { UpdateAdDto } from '../../dto/update-ad.dto';
-import { Ad } from '../../entities/ad.entity';
+import { Ad, AdFilter } from '../../entities/ad.entity';
 
 @Injectable()
 export class AdsPrismaRepository implements AdsRepository {
@@ -18,6 +18,65 @@ export class AdsPrismaRepository implements AdsRepository {
     });
 
     return newAd;
+  }
+
+  async filter(
+    brand: string | undefined,
+    model: string | undefined,
+    color: string | undefined,
+    year: number | undefined,
+    fuel: string | undefined,
+    minKm: number | undefined,
+    maxKm: number | undefined,
+    minPrice: number | undefined,
+    maxPrice: number | undefined,
+  ): Promise<AdFilter> {
+    const [total, ads] = await this.prisma.$transaction([
+      this.prisma.ad.count(),
+      this.prisma.ad.findMany({
+        where: {
+          brand: {
+            contains: brand,
+            mode: 'insensitive',
+          },
+          name: {
+            contains: model,
+            mode: 'insensitive',
+          },
+          color: {
+            contains: color,
+            mode: 'insensitive',
+          },
+          year: {
+            equals: year,
+          },
+          fuel: {
+            contains: fuel,
+            mode: 'insensitive',
+          },
+          km: {
+            gte: minKm,
+            lte: maxKm,
+          },
+          price: {
+            gte: minPrice,
+            lte: maxPrice,
+          },
+          published: true,
+        },
+        include: {
+          user: true,
+        },
+      }),
+    ]);
+
+    return {
+      total,
+      count: ads.length,
+      page: 'falta implementar',
+      perPage: 'falta implementar',
+      ads: ads,
+    };
   }
 
   async findAll(): Promise<Ad[]> {
