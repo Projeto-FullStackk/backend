@@ -50,7 +50,7 @@ model Ad {
   name        String
   year        Int
   fuel        String
-  km          String
+  km          Int
   color       String
   priceTf     Float
   price       Float

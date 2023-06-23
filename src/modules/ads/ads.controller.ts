@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import { AdsService } from './ads.service';
 import { CreateAdDto } from './dto/create-ad.dto';
@@ -22,6 +23,31 @@ export class AdsController {
   @UseGuards(JwtAuthGuard)
   create(@Body() createAdDto: CreateAdDto, @Request() req) {
     return this.adsService.create(createAdDto, req.user.id);
+  }
+
+  @Get('filter')
+  filter(
+    @Query('brand') brand: string | undefined,
+    @Query('model') model: string | undefined,
+    @Query('color') color: string | undefined,
+    @Query('year') year: string | undefined,
+    @Query('fuel') fuel: string | undefined,
+    @Query('minKm') minKm: string | undefined,
+    @Query('maxKm') maxKm: string | undefined,
+    @Query('minPrice') minPrice: string | undefined,
+    @Query('maxPrice') maxPrice: string | undefined,
+  ) {
+    return this.adsService.filter(
+      brand,
+      model,
+      color,
+      year,
+      fuel,
+      minKm,
+      maxKm,
+      minPrice,
+      maxPrice,
+    );
   }
 
   @Get('')
