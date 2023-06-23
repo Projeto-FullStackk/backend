@@ -64,7 +64,11 @@ export class UserPrismaRepository implements UserRepository {
       where: { id: id },
       include: {
         Address: true,
-        ads: true,
+        ads: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
     return plainToInstance(User, user);
@@ -113,6 +117,11 @@ export class UserPrismaRepository implements UserRepository {
       data: updateData,
       include: {
         Address: true,
+        ads: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
 
