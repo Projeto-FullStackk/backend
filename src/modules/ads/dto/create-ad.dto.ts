@@ -23,9 +23,9 @@ export class CreateAdDto {
   @IsNotEmpty()
   fuel: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  km: string;
+  km: number;
 
   @IsString()
   @IsNotEmpty()

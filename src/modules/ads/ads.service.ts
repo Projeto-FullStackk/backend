@@ -3,7 +3,7 @@ import { CreateAdDto } from './dto/create-ad.dto';
 import { UpdateAdDto } from './dto/update-ad.dto';
 // import { AdsPrismaRepository } from './repositories/prisma/ads.prisma.repository';
 import { AdsRepository } from './repositories/ads.repository';
-import { Ad } from './entities/ad.entity';
+import { Ad, AdFilter } from './entities/ad.entity';
 
 @Injectable()
 export class AdsService {
@@ -12,6 +12,30 @@ export class AdsService {
   async create(createAdDto: CreateAdDto, userLoggedId: string): Promise<Ad> {
     const ads = await this.adsRepository.create(createAdDto, userLoggedId);
     return ads;
+  }
+
+  async filter(
+    brand: string | undefined,
+    model: string | undefined,
+    color: string | undefined,
+    year: string | undefined,
+    fuel: string | undefined,
+    minKm: string | undefined,
+    maxKm: string | undefined,
+    minPrice: string | undefined,
+    maxPrice: string | undefined,
+  ): Promise<AdFilter> {
+    return await this.adsRepository.filter(
+      brand !== 'all' ? brand : undefined,
+      model !== 'all' ? model : undefined,
+      color !== 'all' ? color : undefined,
+      year !== 'all' && !isNaN(+year) ? +year : undefined,
+      fuel !== 'all' ? fuel : undefined,
+      minKm !== 'all' && !isNaN(+minKm) ? +minKm : undefined,
+      maxKm !== 'all' && !isNaN(+maxKm) ? +maxKm : undefined,
+      minPrice !== 'all' && !isNaN(+minPrice) ? +minPrice : undefined,
+      maxPrice !== 'all' && !isNaN(+maxPrice) ? +maxPrice : undefined,
+    );
   }
 
   async findAll() {
