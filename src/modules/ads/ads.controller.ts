@@ -56,7 +56,6 @@ export class AdsController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
     return this.adsService.findOne(id);
   }

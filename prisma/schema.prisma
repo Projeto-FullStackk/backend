@@ -45,7 +45,7 @@ model Address {
 }
 
 model Ad {
-  id          String  @id @default(uuid())
+  id          String    @id @default(uuid())
   brand       String
   name        String
   year        Int
@@ -63,8 +63,20 @@ model Ad {
   fifthImage  String?
   sixthImage  String?
   userId      String
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  published   Boolean @default(true)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  published   Boolean   @default(true)
+  Comment     Comment[]
 
   @@map("ads")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  comment   String
+  createdAt DateTime
+  userId    String
+  adsId     String
+  Ad        Ad       @relation(fields: [adsId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
 }
