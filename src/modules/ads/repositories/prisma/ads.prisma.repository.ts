@@ -86,6 +86,7 @@ export class AdsPrismaRepository implements AdsRepository {
       },
       include: {
         user: true,
+        Comment: true,
       },
     });
     return ads;

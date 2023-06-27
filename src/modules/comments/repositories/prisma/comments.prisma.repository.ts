@@ -24,6 +24,7 @@ export class CommentsPrismaRepository implements CommentRepository {
         userId: userLoggedId,
         comment: newComment.comment,
         createdAt: newComment.createdAt,
+        adsId: newComment.adsId,
       },
     });
     return firstComment;

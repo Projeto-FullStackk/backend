@@ -5,11 +5,7 @@ export class CreateCommentDto {
   @IsNotEmpty()
   comment: string;
 
-  // @IsString()
-  // @IsNotEmpty()
-  // userId: string;
-
-  // @IsString()
-  // @IsNotEmpty()
-  // adsId: string;
+  @IsString()
+  @IsNotEmpty()
+  adsId: string;
 }
