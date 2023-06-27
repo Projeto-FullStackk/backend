@@ -20,14 +20,24 @@ export class CommentsService {
   }
 
   async findOne(id: string) {
-    return `This action returns a #${id} comment`;
+    const comment = await this.CommentsRepository.findOne(id);
+    return comment;
   }
 
-  async update(id: string, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
+  async update(
+    id: string,
+    updateCommentDto: UpdateCommentDto,
+    userLoggedId: string,
+  ) {
+    const comment = await this.CommentsRepository.update(
+      id,
+      updateCommentDto,
+      userLoggedId,
+    );
+    return comment;
   }
 
-  async remove(id: string) {
-    return `This action removes a #${id} comment`;
+  async remove(id: string, userLoggedId: string) {
+    return await this.CommentsRepository.remove(id, userLoggedId);
   }
 }

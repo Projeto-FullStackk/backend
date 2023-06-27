@@ -33,16 +33,27 @@ export class CommentsPrismaRepository implements CommentRepository {
     throw new Error('Method not implemented.');
   }
   async findOne(id: string): Promise<Comment> {
-    throw new Error('Method not implemented.');
+    const findComment = await this.prisma.comment.findUnique({
+      where: { id },
+    });
+
+    return findComment;
   }
   async update(
     id: string,
     updateCommentDto: UpdateCommentDto,
     userLoggedId: string,
   ): Promise<Comment> {
-    throw new Error('Method not implemented.');
+    const commentUpdate = await this.prisma.comment.update({
+      where: { id },
+      data: updateCommentDto,
+    });
+
+    return commentUpdate;
   }
   async remove(id: string, userLoggedId: string): Promise<void> {
-    throw new Error('Method not implemented.');
+    const removeComment = await this.prisma.comment.delete({
+      where: { id },
+    });
   }
 }

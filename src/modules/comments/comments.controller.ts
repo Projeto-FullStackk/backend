@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Request,
+  HttpCode,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -37,13 +38,18 @@ export class CommentsController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
-    return this.commentsService.update(id, updateCommentDto);
+  update(
+    @Request() req,
+    @Param('id') id: string,
+    @Body() updateCommentDto: UpdateCommentDto,
+  ) {
+    return this.commentsService.update(id, updateCommentDto, req.user.id);
   }
 
+  @HttpCode(204)
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  remove(@Param('id') id: string) {
-    return this.commentsService.remove(id);
+  remove(@Request() req, @Param('id') id: string) {
+    return this.commentsService.remove(id, req.user.id);
   }
 }

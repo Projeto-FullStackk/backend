@@ -97,6 +97,7 @@ export class AdsPrismaRepository implements AdsRepository {
       where: { id },
       include: {
         user: true,
+        Comment: true,
       },
     });
     return ad;
