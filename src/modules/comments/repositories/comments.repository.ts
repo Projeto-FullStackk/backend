@@ -7,7 +7,6 @@ export abstract class CommentRepository {
     createCommentDto: CreateCommentDto,
     userLoggedId: string,
   ): Promise<Comment> | Comment;
-  abstract findAll(): Promise<Comment[] | Comment> | Comment[];
   abstract findOne(id: string): Promise<Comment> | Comment;
   abstract update(
     id: string,

@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { CommentRepository } from './repositories/comments.repository';
@@ -15,12 +19,12 @@ export class CommentsService {
     return comment;
   }
 
-  async findAll() {
-    return `This action returns all comments`;
-  }
-
   async findOne(id: string) {
     const comment = await this.CommentsRepository.findOne(id);
+
+    if (!comment) {
+      throw new NotFoundException('Comment not found!');
+    }
     return comment;
   }
 
@@ -29,6 +33,18 @@ export class CommentsService {
     updateCommentDto: UpdateCommentDto,
     userLoggedId: string,
   ) {
+    const findComment = await this.CommentsRepository.findOne(id);
+
+    if (!findComment) {
+      throw new NotFoundException('Comment not found!');
+    }
+
+    if (findComment.userId !== userLoggedId) {
+      throw new UnauthorizedException(
+        'You can only edit/delete your own comment',
+      );
+    }
+
     const comment = await this.CommentsRepository.update(
       id,
       updateCommentDto,
@@ -38,6 +54,17 @@ export class CommentsService {
   }
 
   async remove(id: string, userLoggedId: string) {
+    const comment = await this.CommentsRepository.findOne(id);
+
+    if (!comment) {
+      throw new NotFoundException('Comment not found!');
+    }
+
+    if (comment.userId !== userLoggedId) {
+      throw new UnauthorizedException(
+        'You can only edit/delete your own comment',
+      );
+    }
     return await this.CommentsRepository.remove(id, userLoggedId);
   }
 }

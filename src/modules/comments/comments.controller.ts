@@ -25,11 +25,6 @@ export class CommentsController {
     return this.commentsService.create(createCommentDto, req.user.id);
   }
 
-  @Get()
-  findAll() {
-    return this.commentsService.findAll();
-  }
-
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
