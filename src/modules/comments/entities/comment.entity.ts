@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto';
 export class Comment {
   readonly id: string;
   comment: string;
-  createdAt: Date;
+  readonly createdAt: Date;
   userId: string;
   adsId: string;
 
