@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id
+  name        String
+  password    String
+  createdAt   DateTime
+  isAdmin     Boolean  @default(false)
+  email       String   @unique
+  phone       String
+  cpf         String
+  birthDate   DateTime
+  isSeller    Boolean  @default(false)
+  description String
+  ads         Ad[]
+  addressId   String?
+  Address     Address? @relation(fields: [addressId], references: [id], onDelete: Cascade)
+  reset_token String?
+
+  @@map("users")
+}
+
+model Address {
+  id         String  @id @default(uuid())
+  zipCode    String
+  state      String
+  city       String
+  country    String
+  street     String
+  number     String
+  complement String?
+  User       User[]
+
+  @@map("addresses")
+}
+
+model Ad {
+  id          String    @id @default(uuid())
+  brand       String
+  name        String
+  year        Int
+  fuel        String
+  km          Int
+  color       String
+  priceTf     Float
+  price       Float
+  description String
+  coverImage  String
+  firstImage  String?
+  secondImage String?
+  thirdImage  String?
+  fourthImage String?
+  fifthImage  String?
+  sixthImage  String?
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  published   Boolean   @default(true)
+  Comment     Comment[]
+
+  @@map("ads")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  comment   String
+  createdAt DateTime
+  userId    String
+  adsId     String
+  Ad        Ad       @relation(fields: [adsId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
