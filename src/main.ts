@@ -13,9 +13,6 @@ async function bootstrap() {
       'A API do Site de Venda de Carros é bem documentada, fácil de usar e oferece suporte técnico abrangente. Com ela, os desenvolvedores têm a flexibilidade de criar aplicativos personalizados, plataformas de pesquisa de carros, serviços de agregação de dados automotivos e muito mais.',
     )
     .setVersion('1.0')
-    .addTag('Users')
-    .addTag('Ads')
-    .addTag('Comments')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
