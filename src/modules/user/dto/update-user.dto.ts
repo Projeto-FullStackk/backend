@@ -73,6 +73,7 @@ export class UpdateUserDto {
     description: 'description',
     type: String,
     default: 'Hi my name is João.',
+    required: false,
   })
   description: string;
 
@@ -115,8 +116,8 @@ export class UpdateUserDto {
       street: 'Rua das Flores',
       number: '123',
       complement: 'Apt. 456',
-      required: false,
     },
+    required: false,
   })
   address: CreateAddressDto;
 }
