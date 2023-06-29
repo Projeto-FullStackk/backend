@@ -85,7 +85,23 @@ export class AdsPrismaRepository implements AdsRepository {
         published: true,
       },
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            password: false,
+            createdAt: true,
+            isAdmin: true,
+            email: true,
+            phone: true,
+            cpf: true,
+            birthDate: true,
+            isSeller: true,
+            description: true,
+            addressId: true,
+            reset_token: true,
+          },
+        },
         Comment: true,
       },
     });
@@ -96,7 +112,23 @@ export class AdsPrismaRepository implements AdsRepository {
     const ad = await this.prisma.ad.findUnique({
       where: { id },
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            password: false,
+            createdAt: true,
+            isAdmin: true,
+            email: true,
+            phone: true,
+            cpf: true,
+            birthDate: true,
+            isSeller: true,
+            description: true,
+            addressId: true,
+            reset_token: true,
+          },
+        },
         Comment: true,
       },
     });

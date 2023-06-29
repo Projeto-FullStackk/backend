@@ -12,10 +12,11 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateAdressDto, UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-// import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -26,6 +27,7 @@ export class UserController {
   }
 
   @Get('')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   findAll(@Request() req) {
     return this.userService.findAll(req.user.id);
@@ -37,6 +39,7 @@ export class UserController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     console.log(updateUserDto);
@@ -45,6 +48,7 @@ export class UserController {
 
   @HttpCode(204)
   @Delete(':id')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.userService.remove(id);
