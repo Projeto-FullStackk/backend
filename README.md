@@ -76,7 +76,7 @@ A API possui autenticação de usuário e permite que os usuários gerenciem seu
   ```
   <h4>4º Passo - Testando o Backend</h4>
   1. Acesse a documentação completa em: https://motor-shop-m6.onrender.com/api <br>
-  2. Na raiz do projeto há um arquivo "workspace_insomnia" que pode ser importado no insomnia para serem efetuados testes de rota, olhe a documentação e execute as as rotas .
+  2. Na raiz do projeto há um arquivo chamado "workspace_insomnia" que pode ser importado no insomnia para serem efetuados testes de rota, olhe a documentação e execute as rotas .
   
 
 ## 4. Deselvolvedores
