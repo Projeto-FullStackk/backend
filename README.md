@@ -26,7 +26,7 @@
 ## 1. Sobre
 Este projeto foi gerado com NestJS.
 
-Esta é uma API de venda de carros construído com NestJS. Ela oferece funcionalidades avançadas de filtragem para ajudar os usuários a encontrar o carro perfeito. 
+Esta é uma API de venda de carros construído com NestJS. Ela oferece funcionalidades avançadas de CRUD para qualquer e-commerce com foco em negociações de carros nacionais e importados. 
 
 A API possui autenticação de usuário e permite que os usuários gerenciem seus anúncios de carros. Há uma diferenciação entre usuários comuns e usuários vendedores, com recursos adicionais disponíveis para vendedores. Os usuários podem deixar comentários e avaliações nos respectivos anúncios, isto é, se o usuário estiver logado e com token de autenticação.
 
