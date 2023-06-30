@@ -1,73 +1,95 @@
+<h1 align="center"> Motors Shop API</h1>
+
+<div align="center">
+  
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white) ![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=fff) 	![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) 
+
+</div>
+
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+
+  ![image](https://github.com/Projeto-FullStackk/frontend/assets/110180304/0928456f-4653-4c1a-b511-d77711cdcfe5)
+
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<h2>Índice</h2>
 
-## Description
+1. [ Sobre ](#sobre)
+2. [ Tecnologias](#techs)
+3. [ Instalação ](#install)
+4. [ Desenvolvedores ](#devs)
+5. [ Termos de uso ](#termos)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<a name="sobre"></a>
 
-## Installation
+## 1. Sobre
+Este projeto foi gerado com NestJS.
 
-```bash
-$ npm install
-```
+Esta é uma API de venda de carros construído com NestJS. Ela oferece funcionalidades avançadas de filtragem para ajudar os usuários a encontrar o carro perfeito. 
 
-## Running the app
+A API possui autenticação de usuário e permite que os usuários gerenciem seus anúncios de carros. Há uma diferenciação entre usuários comuns e usuários vendedores, com recursos adicionais disponíveis para vendedores. Os usuários podem deixar comentários e avaliações nos respectivos anúncios, isto é, se o usuário estiver logado e com token de autenticação.
 
-```bash
-# development
-$ npm run start
+### 1.1 Deploy da Aplicação para teste no Front-end
 
-# watch mode
-$ npm run start:dev
+- <a name="MotorShop" href="" target="_blank">Motor Shop - Live</a>
 
-# production mode
-$ npm run start:prod
-```
+<a name="techs"></a>
 
-## Test
+## 2. Tecnologias
 
-```bash
-# unit tests
-$ npm run test
+- <a name="nest" href="https://docs.nestjs.com" target="_blank">NestJS</a>
+- <a name="postgres" href="https://www.postgresql.org/" target="_blank">PostgreSQL</a>
 
-# e2e tests
-$ npm run test:e2e
+<a name="install"></a>
+## 3. Instalação e uso
 
-# test coverage
-$ npm run test:cov
-```
+### 3.1 Pré-Requisitos:
+  <h4>1º Passo</h4>
+  <h5>Antes de começar, certifique-se de ter instalado o Node.js em sua máquina.</h3>
+  <p>Faça um fork deste repositório, depois clone o fork em sua máquina.</p>
 
-## Support
+  <h4>2º passo</h4>
+  ## Variáveis de ambiente
+  Crie um arquivo .env e complete com suas informações conforme esta no .env.example.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+  <h4>3º Passo - Configurando o Backend</h4>
+  - Rode os seguintes comandos: 
+  
+  ```bash
+  #instala todas as dependências necessárias
+  $ npm install
+    
+  $ #migrate
+  $ npx prisma migrate dev
+  #generate
+  $ npx prisma generate
+    
+  # development
+  $ npm run start
+    
+  # watch mode
+  $ npm run start:dev
+    
+  # production mode
+  $ npm run start:prod
+  ```
+  <h4>4º Passo - Testando o Backend</h4>
+  1. Acesse a documentação completa em: https://motor-shop-m6.onrender.com/api
+  2. Na raiz do projeto há um arquivo "workspace_insomnia" que pode ser importado no insomnia para serem efetuados testes de rota, olhe a documentação e execute as as rotas .
+  
 
-## Stay in touch
+## 4. Deselvolvedores
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- <img src="https://github.com/gyo-almeida.png" width="40" height="40" style="border-radius: 20px;"> <a name="Gyovanna" href="https://github.com/gyo-almeida" target="_blank">Gyovanna Almeida</a>
+- <img src="https://github.com/joaobuga35.png" width="40" height="40" style="border-radius: 20px;"> <a name="Joao" href="https://github.com/joaobuga35" target="_blank">João Bugati</a>
+- <img src="https://github.com/kellygalliani.png" width="40" height="40" style="border-radius: 20px"> <a name="kelly" href="https://github.com/kellygalliani" target="_blank">Kelly Cristina</a>
+- <img src="https://github.com/LuanFlorencioo.png" width="40" height="40" style="border-radius: 20px;"> <a name="luan" href="https://github.com/LuanFlorencioo" target="_blank">Luan Florêncio</a>
+- <img src="https://github.com/milenarodarte.png" width="40" height="40" style="border-radius: 20px;"> <a name="milena" href="https://github.com/milenarodarte" target="_blank">Milena Rodarte</a>
 
-## License
+<a name="termos"></a>
 
-Nest is [MIT licensed](LICENSE).
+## 5. Termos de uso
+
+Este é um projeto Open Source para fins educacionais e não comerciais, **Tipo de licença** - <a name="mit" href="https://opensource.org/licenses/MIT" target="_blank">MIT</a>
+<a name="devs"></a>
