@@ -50,8 +50,8 @@ A API possui autenticação de usuário e permite que os usuários gerenciem seu
   <p>Faça um fork deste repositório, depois clone o fork em sua máquina.</p>
 
   <h4>2º passo</h4>
-  ## Variáveis de ambiente
-  Crie um arquivo .env e complete com suas informações conforme esta no .env.example.
+  Variáveis de ambiente:
+    Crie um arquivo .env e complete com suas informações conforme esta no .env.example.
 
   <h4>3º Passo - Configurando o Backend</h4>
   - Rode os seguintes comandos: 
@@ -75,8 +75,8 @@ A API possui autenticação de usuário e permite que os usuários gerenciem seu
   $ npm run start:prod
   ```
   <h4>4º Passo - Testando o Backend</h4>
-  1. Acesse a documentação completa em: https://motor-shop-m6.onrender.com/api
-  2. Na raiz do projeto há um arquivo "workspace_insomnia" que pode ser importado no insomnia para serem efetuados testes de rota, olhe a documentação e execute as as rotas .
+    1. Acesse a documentação completa em: https://motor-shop-m6.onrender.com/api .
+    2. Na raiz do projeto há um arquivo "workspace_insomnia" que pode ser importado no insomnia para serem efetuados testes de rota, olhe a documentação e execute as as rotas .
   
 
 ## 4. Deselvolvedores
