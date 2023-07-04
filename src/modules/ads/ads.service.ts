@@ -24,18 +24,23 @@ export class AdsService {
     maxKm: string | undefined,
     minPrice: string | undefined,
     maxPrice: string | undefined,
+    page: string | undefined,
+    perPage: string | undefined,
   ): Promise<AdFilter> {
-    return await this.adsRepository.filter(
-      brand !== 'all' ? brand : undefined,
-      model !== 'all' ? model : undefined,
-      color !== 'all' ? color : undefined,
-      year !== 'all' && !isNaN(+year) ? +year : undefined,
-      fuel !== 'all' ? fuel : undefined,
-      minKm !== 'all' && !isNaN(+minKm) ? +minKm : undefined,
-      maxKm !== 'all' && !isNaN(+maxKm) ? +maxKm : undefined,
-      minPrice !== 'all' && !isNaN(+minPrice) ? +minPrice : undefined,
-      maxPrice !== 'all' && !isNaN(+maxPrice) ? +maxPrice : undefined,
-    );
+    return await this.adsRepository.filter({
+      brand: brand !== 'all' ? brand : undefined,
+      model: model !== 'all' ? model : undefined,
+      color: color !== 'all' ? color : undefined,
+      year: year !== 'all' && !isNaN(+year) ? +year : undefined,
+      fuel: fuel !== 'all' ? fuel : undefined,
+      minKm: minKm !== 'all' && !isNaN(+minKm) ? +minKm : undefined,
+      maxKm: maxKm !== 'all' && !isNaN(+maxKm) ? +maxKm : undefined,
+      minPrice: minPrice !== 'all' && !isNaN(+minPrice) ? +minPrice : undefined,
+      maxPrice: maxPrice !== 'all' && !isNaN(+maxPrice) ? +maxPrice : undefined,
+      page: !isNaN(+page) && +page > 0 ? +page : 1,
+      perPage:
+        !isNaN(+perPage) && +perPage > 0 && +perPage < 12 ? +perPage : 12,
+    });
   }
 
   async findAll() {
