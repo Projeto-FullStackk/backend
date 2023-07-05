@@ -4,6 +4,7 @@ import { PrismaService } from 'src/database/prisma.service';
 import { CreateAdDto } from '../../dto/create-ad.dto';
 import { UpdateAdDto } from '../../dto/update-ad.dto';
 import { Ad, AdFilter } from '../../entities/ad.entity';
+import { FilterAdDto } from '../../dto/filter-ad.dto';
 
 @Injectable()
 export class AdsPrismaRepository implements AdsRepository {
@@ -20,62 +21,103 @@ export class AdsPrismaRepository implements AdsRepository {
     return newAd;
   }
 
-  async filter(
-    brand: string | undefined,
-    model: string | undefined,
-    color: string | undefined,
-    year: number | undefined,
-    fuel: string | undefined,
-    minKm: number | undefined,
-    maxKm: number | undefined,
-    minPrice: number | undefined,
-    maxPrice: number | undefined,
-  ): Promise<AdFilter> {
-    const [total, ads] = await this.prisma.$transaction([
-      this.prisma.ad.count(),
-      this.prisma.ad.findMany({
+  async filter(filtersAd: FilterAdDto): Promise<AdFilter> {
+    const getData = async (
+      perPage: number | undefined,
+      page: number | undefined,
+    ) => {
+      return await this.prisma.ad.findMany({
         where: {
           brand: {
-            contains: brand,
+            contains: filtersAd.brand,
             mode: 'insensitive',
           },
           name: {
-            contains: model,
+            contains: filtersAd.model,
             mode: 'insensitive',
           },
           color: {
-            contains: color,
+            contains: filtersAd.color,
             mode: 'insensitive',
           },
           year: {
-            equals: year,
+            equals: filtersAd.year,
           },
           fuel: {
-            contains: fuel,
+            contains: filtersAd.fuel,
             mode: 'insensitive',
           },
           km: {
-            gte: minKm,
-            lte: maxKm,
+            gte: filtersAd.minKm,
+            lte: filtersAd.maxKm,
           },
           price: {
-            gte: minPrice,
-            lte: maxPrice,
+            gte: filtersAd.minPrice,
+            lte: filtersAd.maxPrice,
           },
           published: true,
         },
         include: {
           user: true,
         },
-      }),
-    ]);
+        take: perPage,
+        skip: page && perPage ? (page - 1) * perPage : undefined,
+      });
+    };
+
+    const { page, perPage } = filtersAd;
+
+    const ads = await getData(perPage, page);
+    const adsCount = ads.length;
+    const allAds = await getData(undefined, undefined);
+    const allAdsCount = allAds.length;
+    const hasNextPage = perPage * (page - 1) + adsCount < allAdsCount;
+    const hasPreviousPage =
+      page > 1 && (await getData(perPage, page - 1)).length > 0;
+    const limitPage = Number.isInteger(allAdsCount / perPage)
+      ? allAdsCount / perPage
+      : parseInt(`${allAdsCount / perPage + 1}`);
+
+    const filters = {
+      allBrands: [] as string[],
+      allModels: [] as string[],
+      allYears: [] as number[],
+      allFuels: [] as string[],
+      allColors: [] as string[],
+    };
+
+    allAds.forEach((ad) => {
+      const { allBrands, allModels, allYears, allFuels, allColors } = filters;
+
+      if (!allBrands.includes(ad.brand)) {
+        filters.allBrands.push(ad.brand);
+      }
+
+      if (!allModels.includes(ad.name)) {
+        filters.allModels.push(ad.name);
+      }
+
+      if (!allYears.includes(ad.year)) {
+        filters.allYears.push(ad.year);
+      }
+
+      if (!allFuels.includes(ad.fuel)) {
+        filters.allFuels.push(ad.fuel);
+      }
+
+      if (!allColors.includes(ad.color)) {
+        filters.allColors.push(ad.color);
+      }
+    });
 
     return {
-      total,
-      count: ads.length,
-      page: 'falta implementar',
-      perPage: 'falta implementar',
-      ads: ads,
+      page,
+      perPage,
+      limitPage,
+      hasNextPage,
+      hasPreviousPage,
+      ads,
+      filters,
     };
   }
 

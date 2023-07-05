@@ -45,6 +45,8 @@ export class AdsController {
     @Query('maxKm') maxKm: string | undefined,
     @Query('minPrice') minPrice: string | undefined,
     @Query('maxPrice') maxPrice: string | undefined,
+    @Query('page') page: string | undefined,
+    @Query('perPage') perPage: string | undefined,
   ) {
     return this.adsService.filter(
       brand,
@@ -56,6 +58,8 @@ export class AdsController {
       maxKm,
       minPrice,
       maxPrice,
+      page,
+      perPage,
     );
   }
 
