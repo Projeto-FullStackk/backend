@@ -77,9 +77,13 @@ A API possui autenticação de usuário e permite que os usuários gerenciem seu
   <h4>4º Passo - Testando o Backend</h4>
   1. Acesse a documentação completa em: https://motor-shop-m6.onrender.com/api <br>
   2. Na raiz do projeto há um arquivo chamado "workspace_insomnia" que pode ser importado no insomnia para serem efetuados testes de rota, olhe a documentação e execute as rotas .
-  
 
-## 4. Deselvolvedores
+## 4. Ambiente de desenvolvimento FRONT-END
+  <h4>1º Passo</h4>
+  <p>Acesse o seguinte repositório: https://github.com/Projeto-FullStackk/frontend </p>
+  <p>Siga as instruções do README para poder testar e contribuir com o projeto.</p>
+
+## 5. Deselvolvedores
 
 - <img src="https://github.com/gyo-almeida.png" width="40" height="40" style="border-radius: 20px;"> <a name="Gyovanna" href="https://github.com/gyo-almeida" target="_blank">Gyovanna Almeida</a>
 - <img src="https://github.com/joaobuga35.png" width="40" height="40" style="border-radius: 20px;"> <a name="Joao" href="https://github.com/joaobuga35" target="_blank">João Bugati</a>
@@ -89,7 +93,7 @@ A API possui autenticação de usuário e permite que os usuários gerenciem seu
 
 <a name="termos"></a>
 
-## 5. Termos de uso
+## 6. Termos de uso
 
 Este é um projeto Open Source para fins educacionais e não comerciais, **Tipo de licença** - <a name="mit" href="https://opensource.org/licenses/MIT" target="_blank">MIT</a>
 <a name="devs"></a>
