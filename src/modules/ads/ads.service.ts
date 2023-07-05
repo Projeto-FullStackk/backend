@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateAdDto } from './dto/create-ad.dto';
 import { UpdateAdDto } from './dto/update-ad.dto';
 // import { AdsPrismaRepository } from './repositories/prisma/ads.prisma.repository';
@@ -64,6 +68,11 @@ export class AdsService {
   }
 
   async remove(id: string, userLoggedId: string) {
+    const findAd = await this.adsRepository.findOne(id);
+
+    if (findAd.userId !== userLoggedId) {
+      throw new UnauthorizedException('User not authorized');
+    }
     await this.adsRepository.remove(id, userLoggedId);
 
     return;
