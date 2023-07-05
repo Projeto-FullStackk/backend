@@ -27,9 +27,17 @@ export class Ad {
 }
 
 export class AdFilter {
-  total: number;
-  count: number;
-  page: string;
-  perPage: string;
+  page: number;
+  perPage: number;
+  limitPage: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
   ads: Ad[];
+  filters: {
+    allBrands: string[];
+    allModels: string[];
+    allYears: number[];
+    allFuels: string[];
+    allColors: string[];
+  };
 }

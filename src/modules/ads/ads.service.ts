@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateAdDto } from './dto/create-ad.dto';
 import { UpdateAdDto } from './dto/update-ad.dto';
 // import { AdsPrismaRepository } from './repositories/prisma/ads.prisma.repository';
@@ -24,18 +28,23 @@ export class AdsService {
     maxKm: string | undefined,
     minPrice: string | undefined,
     maxPrice: string | undefined,
+    page: string | undefined,
+    perPage: string | undefined,
   ): Promise<AdFilter> {
-    return await this.adsRepository.filter(
-      brand !== 'all' ? brand : undefined,
-      model !== 'all' ? model : undefined,
-      color !== 'all' ? color : undefined,
-      year !== 'all' && !isNaN(+year) ? +year : undefined,
-      fuel !== 'all' ? fuel : undefined,
-      minKm !== 'all' && !isNaN(+minKm) ? +minKm : undefined,
-      maxKm !== 'all' && !isNaN(+maxKm) ? +maxKm : undefined,
-      minPrice !== 'all' && !isNaN(+minPrice) ? +minPrice : undefined,
-      maxPrice !== 'all' && !isNaN(+maxPrice) ? +maxPrice : undefined,
-    );
+    return await this.adsRepository.filter({
+      brand: brand !== 'all' ? brand : undefined,
+      model: model !== 'all' ? model : undefined,
+      color: color !== 'all' ? color : undefined,
+      year: year !== 'all' && !isNaN(+year) ? +year : undefined,
+      fuel: fuel !== 'all' ? fuel : undefined,
+      minKm: minKm !== 'all' && !isNaN(+minKm) ? +minKm : undefined,
+      maxKm: maxKm !== 'all' && !isNaN(+maxKm) ? +maxKm : undefined,
+      minPrice: minPrice !== 'all' && !isNaN(+minPrice) ? +minPrice : undefined,
+      maxPrice: maxPrice !== 'all' && !isNaN(+maxPrice) ? +maxPrice : undefined,
+      page: !isNaN(+page) && +page > 0 ? +page : 1,
+      perPage:
+        !isNaN(+perPage) && +perPage > 0 && +perPage < 12 ? +perPage : 12,
+    });
   }
 
   async findAll() {
@@ -59,6 +68,11 @@ export class AdsService {
   }
 
   async remove(id: string, userLoggedId: string) {
+    const findAd = await this.adsRepository.findOne(id);
+
+    if (findAd.userId !== userLoggedId) {
+      throw new UnauthorizedException('User not authorized');
+    }
     await this.adsRepository.remove(id, userLoggedId);
 
     return;
