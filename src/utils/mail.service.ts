@@ -39,7 +39,7 @@ export class MailService {
           button: {
             color: '#4529E6',
             text: 'Redefinir senha',
-            link: `http://localhost:3000/resetPassword/${resetToken}`,
+            link: `https://motorshop-joaobuga35.vercel.app/resetPassword/${resetToken}`,
           },
         },
         outro:
